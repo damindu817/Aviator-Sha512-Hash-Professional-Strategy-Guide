@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Aviator Pro Strategy Guide</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary-color: #2c3e50;
+      --secondary-color: #3498db;
+      --accent-color: #e74c3c;
+      --light-bg: #f8f9fa;
+      --dark-text: #2c3e50;
+      --light-text: #7f8c8d;
+      --border-color: #e0e0e0;
+      --success-color: #27ae60;
+      --warning-color: #f39c12;
+      --info-color: #2980b9;
+    }
+
+    body {
+      font-family: 'Segoe UI', 'Roboto', sans-serif;
+      background-color: var(--light-bg);
+      margin: 0;
+      padding: 0;
+      color: var(--dark-text);
+      line-height: 1.6;
+      transition: all 0.3s ease;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .language-switcher {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 20px;
+    }
+
+    .lang-btn {
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      margin-left: 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.3s ease;
+    }
+
+    .lang-btn.active {
+      background: var(--secondary-color);
+    }
+
+    .lang-btn:hover {
+      opacity: 0.9;
+    }
+
+    .guide-header {
+      text-align: center;
+      margin-bottom: 30px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .guide-header h1 {
+      color: var(--primary-color);
+      font-size: 32px;
+      margin-bottom: 10px;
+    }
+
+    .guide-header p {
+      color: var(--light-text);
+      font-size: 16px;
+    }
+
+    .strategy-card {
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+      margin-bottom: 20px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      border: 1px solid var(--border-color);
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    .strategy-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .card-header {
+      background-color: var(--primary-color);
+      color: white;
+      padding: 15px 20px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all 0.3s ease;
+    }
+
+    .card-header:hover {
+      background-color: #34495e;
+    }
+
+    .card-header h3 {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+    }
+
+    .card-header i {
+      margin-right: 10px;
+      font-size: 16px;
+    }
+
+    .card-header .toggle-icon {
+      transition: transform 0.3s ease;
+    }
+
+    .strategy-card.active .toggle-icon {
+      transform: rotate(180deg);
+    }
+
+    .card-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      padding: 0 20px;
+    }
+
+    .strategy-card.active .card-body {
+      max-height: 1000px;
+      padding: 20px;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .card-body p {
+      margin-bottom: 15px;
+    }
+
+    .highlight {
+      background-color: rgba(52, 152, 219, 0.1);
+      padding: 2px 5px;
+      border-radius: 3px;
+      color: var(--secondary-color);
+      font-weight: 600;
+    }
+
+    .warning {
+      color: var(--warning-color);
+      font-weight: 600;
+    }
+
+    .danger {
+      color: var(--accent-color);
+      font-weight: 600;
+    }
+
+    .success {
+      color: var(--success-color);
+      font-weight: 600;
+    }
+
+    .info {
+      color: var(--info-color);
+      font-weight: 600;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px 0;
+      margin-top: 40px;
+      border-top: 1px solid var(--border-color);
+      color: var(--light-text);
+      font-size: 14px;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 15px;
+      }
+      
+      .guide-header h1 {
+        font-size: 26px;
+      }
+      
+      .card-header h3 {
+        font-size: 16px;
+      }
+    }
+
+    /* Animation delays for cards */
+    .strategy-card:nth-child(1) { transition-delay: 0.1s; }
+    .strategy-card:nth-child(2) { transition-delay: 0.2s; }
+    .strategy-card:nth-child(3) { transition-delay: 0.3s; }
+    .strategy-card:nth-child(4) { transition-delay: 0.4s; }
+    .strategy-card:nth-child(5) { transition-delay: 0.5s; }
+    .strategy-card:nth-child(6) { transition-delay: 0.6s; }
+    .strategy-card:nth-child(7) { transition-delay: 0.7s; }
+    .strategy-card:nth-child(8) { transition-delay: 0.8s; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="language-switcher">
+    <button class="lang-btn active" id="sinhala-btn">සිංහල</button>
+    <button class="lang-btn" id="english-btn">English</button>
+  </div>
+
+  <div class="guide-header">
+    <h1 id="title">Aviator Professional Strategy Guide</h1>
+    <p id="subtitle">Expert techniques and safe gaming practices for optimal results</p>
+  </div>
+
+  <div class="strategy-card">
+    <div class="card-header">
+      <h3><i class="fas fa-exclamation-triangle"></i> <span id="strategy1-title">1. Identifying Risky Starts</span></h3>
+      <i class="fas fa-chevron-down toggle-icon"></i>
+    </div>
+    <div class="card-body" id="strategy1-content">
+      <p>If three or more consecutive odds below <span class="highlight">2.0x</span> appear during the signal period, immediately <span class="warning">stop betting</span>.</p>
+      <p>If additional blue (low) odds continue to appear, cease gameplay. Close the application and wait for at least <span class="highlight">15 minutes</span> before resuming.</p>
+    </div>
+  </div>
+
+  <div class="strategy-card">
+    <div class="card-header">
+      <h3><i class="fas fa-chart-line"></i> <span id="strategy2-title">2. High Odd Risk Timing</span></h3>
+      <i class="fas fa-chevron-down toggle-icon"></i>
+    </div>
+    <div class="card-body" id="strategy2-content">
+      <p>If a <span class="highlight">10x+ odd</span> appears within <span class="highlight">±1 minute</span> of the signal time, this indicates a High Odd Risk period. <span class="warning">Avoid placing bets</span> during these intervals.</p>
+    </div>
+  </div>
+
+  <div class="strategy-card">
+    <div class="card-header">
+      <h3><i class="fas fa-lock"></i> <span id="strategy3-title">3. SHA512 Hash Code Method</span></h3>
+      <i class="fas fa-chevron-down toggle-icon"></i>
+    </div>
+    <div class="card-body" id="strategy3-content">
+      <p>After obtaining the SHA512 Hash:</p>
+      <p>• Select the <span class="highlight">first round</span> among the <span class="highlight">last three rounds</span>.</p>
+      <p>• If it shows <span class="highlight">3x or higher odd</span>, it's considered reliable.</p>
+      <p>• If a "Try Again" message appears, <span class="warning">discontinue use</span> of that signal and generate a new one for verification.</p>
+    </div>
+  </div>
+
+  <div class="strategy-card">
+    <div class="card-header">
+      <h3><i class="fas fa-bullseye"></i> <span id="strategy4-title">4. Targeting High Confidence Odds</span></h3>
+      <i class="fas fa-chevron-down toggle-icon"></i>
+    </div>
+    <div class="card-body" id="strategy4-content">
+      <p>Whenever possible, place bets on <span class="highlight">3x+ odds</span> with <span class="highlight">80%+ confidence</span> levels.</p>
+      <p>Base your decisions on the Signal Trust Level indicator.</p>
+    </div>
+  </div>
+
+  <div class="strategy-card">
+    <div class="card-header">
+      <h3><i class="fas fa-clock"></i> <span id="strategy5-title">5. Precise Signal Timing (Second-Based)</span></h3>
+      <i class="fas fa-chevron-down toggle-icon"></i>
+    </div>
+    <div class="card-body" id="strategy5-content">
+      <p>Example: Signal = <span class="highlight">10:30:47</span></p>
+      <p>→ Only play the subsequent round (e.g., 10:30:48).</p>
+      <p>• Skip rounds that are too close to the signal second.</p>
+      <p>• Note that the game's initial <span class="highlight">10 seconds</span> are not counted.</p>
+    </div>
+  </div>
+
+  <div class="strategy-card">
+    <div class="card-header">
+      <h3><i class="fas fa-sync-alt"></i> <span id="strategy6-title">6. Signal-Based Betting Sequence (3 Rounds)</span></h3>
+      <i class="fas fa-chevron-down toggle-icon"></i>
+    </div>
+    <div class="card-body" id="strategy6-content">
+      <p>For each signal:</p>
+      <p>• Play the <span class="highlight">next three rounds</span>, skipping any previous rounds.</p>
+      <p>• If you win in any single round, stop playing.</p>
+      <p>• Generate a new signal for another set of three rounds.</p>
+      <p>• If all three rounds fail, <span class="highlight">change the Hash</span> and generate a new signal.</p>
+    </div>
+  </div>
+
+  <div class="strategy-card">
+    <div class="card-header">
+      <h3><i class="fas fa-graduation-cap"></i> <span id="strategy7-title">7. Understanding and Practice</span></h3>
+      <i class="fas fa-chevron-down toggle-icon"></i>
+    </div>
+    <div class="card-body" id="strategy7-content">
+      <p>Before implementing the signal system:</p>
+      <p>• Test several rounds to observe patterns.</p>
+      <p>• Identify whether wins typically occur in the <span class="highlight">first, second, or third</span> subsequent rounds.</p>
+      <p>• Example: If most big wins occur in the third round, skip the first two and <span class="highlight">target only the third round</span>.</p>
+    </div>
+  </div>
+
+  <div class="strategy-card">
+    <div class="card-header">
+      <h3><i class="fas fa-lightbulb"></i> <span id="strategy8-title">8. Additional Professional Tips</span></h3>
+      <i class="fas fa-chevron-down toggle-icon"></i>
+    </div>
+    <div class="card-body" id="strategy8-content">
+      <p>• <span class="info">History Pattern Analysis</span> – Identify and follow trends.</p>
+      <p>• <span class="info">Session Pauses</span> – Wait 10-15 minutes after each win.</p>
+      <p>• <span class="info">Play Moderation</span> – Limit to 3-5 signals per hour.</p>
+      <p>• <span class="info">Stable Connection</span> – Ensure reliable power and internet.</p>
+      <p>• <span class="info">Signal Logging</span> – Maintain records in JSON/Excel format.</p>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p id="footer-text">© 2023 Aviator Pro Strategy Guide. All rights reserved. For educational purposes only.</p>
+</footer>
+
+<script>
+  // Accordion functionality
+  document.querySelectorAll('.card-header').forEach(header => {
+    header.addEventListener('click', () => {
+      const card = header.parentElement;
+      card.classList.toggle('active');
+    });
+  });
+
+  // Scroll animation
+  const cards = document.querySelectorAll('.strategy-card');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, {
+    threshold: 0.1
+  });
+
+  cards.forEach(card => observer.observe(card));
+
+  // Language switching functionality
+  const englishContent = {
+    title: "Aviator Professional Strategy Guide",
+    subtitle: "Expert techniques and safe gaming practices for optimal results",
+    strategies: [
+      {
+        title: "1. Identifying Risky Starts",
+        content: `<p>If three or more consecutive odds below <span class="highlight">2.0x</span> appear during the signal period, immediately <span class="warning">stop betting</span>.</p>
+        <p>If additional blue (low) odds continue to appear, cease gameplay. Close the application and wait for at least <span class="highlight">15 minutes</span> before resuming.</p>`
+      },
+      {
+        title: "2. High Odd Risk Timing",
+        content: `<p>If a <span class="highlight">10x+ odd</span> appears within <span class="highlight">±1 minute</span> of the signal time, this indicates a High Odd Risk period. <span class="warning">Avoid placing bets</span> during these intervals.</p>`
+      },
+      {
+        title: "3. SHA512 Hash Code Method",
+        content: `<p>After obtaining the SHA512 Hash:</p>
+        <p>• Select the <span class="highlight">first round</span> among the <span class="highlight">last three rounds</span>.</p>
+        <p>• If it shows <span class="highlight">3x or higher odd</span>, it's considered reliable.</p>
+        <p>• If a "Try Again" message appears, <span class="warning">discontinue use</span> of that signal and generate a new one for verification.</p>`
+      },
+      {
+        title: "4. Targeting High Confidence Odds",
+        content: `<p>Whenever possible, place bets on <span class="highlight">3x+ odds</span> with <span class="highlight">80%+ confidence</span> levels.</p>
+        <p>Base your decisions on the Signal Trust Level indicator.</p>`
+      },
+      {
+        title: "5. Precise Signal Timing (Second-Based)",
+        content: `<p>Example: Signal = <span class="highlight">10:30:47</span></p>
+        <p>→ Only play the subsequent round (e.g., 10:30:48).</p>
+        <p>• Skip rounds that are too close to the signal second.</p>
+        <p>• Note that the game's initial <span class="highlight">10 seconds</span> are not counted.</p>`
+      },
+      {
+        title: "6. Signal-Based Betting Sequence (3 Rounds)",
+        content: `<p>For each signal:</p>
+        <p>• Play the <span class="highlight">next three rounds</span>, skipping any previous rounds.</p>
+        <p>• If you win in any single round, stop playing.</p>
+        <p>• Generate a new signal for another set of three rounds.</p>
+        <p>• If all three rounds fail, <span class="highlight">change the Hash</span> and generate a new signal.</p>`
+      },
+      {
+        title: "7. Understanding and Practice",
+        content: `<p>Before implementing the signal system:</p>
+        <p>• Test several rounds to observe patterns.</p>
+        <p>• Identify whether wins typically occur in the <span class="highlight">first, second, or third</span> subsequent rounds.</p>
+        <p>• Example: If most big wins occur in the third round, skip the first two and <span class="highlight">target only the third round</span>.</p>`
+      },
+      {
+        title: "8. Additional Professional Tips",
+        content: `<p>• <span class="info">History Pattern Analysis</span> – Identify and follow trends.</p>
+        <p>• <span class="info">Session Pauses</span> – Wait 10-15 minutes after each win.</p>
+        <p>• <span class="info">Play Moderation</span> – Limit to 3-5 signals per hour.</p>
+        <p>• <span class="info">Stable Connection</span> – Ensure reliable power and internet.</p>
+        <p>• <span class="info">Signal Logging</span> – Maintain records in JSON/Excel format.</p>`
+      }
+    ],
+    footer: "© 2023 Aviator Pro Strategy Guide. All rights reserved. For educational purposes only."
+  };
+
+  const sinhalaContent = {
+    title: "Aviator වෘත්තීය ක්‍රමවේද මාර්ගෝපදේශය",
+    subtitle: "ප්‍රශස්ත ප්‍රතිඵල සඳහා වෘත්තීය තාක්ෂණික ක්‍රම සහ ආරක්ෂිත ක්‍රීඩා පිළිවෙත්",
+    strategies: [
+      {
+        title: "1. අවදානම් ආරම්භය හඳුනාගැනීම",
+        content: `<p>Signal වේලාවට <span class="highlight">2ට අඩු odd</span> තුනක් හෝ වැඩි ප්‍රමාණයක් පැමිණී ඇත්නම්, වහාම <span class="warning">බැට් කිරීම නවතන්න</span>.</p>
+        <p>තවදුරටත් blue odds පැමිණේ නම්, ක්‍රීඩා නවත්වන්න. App එකද වසා, අවම වශයෙන් <span class="highlight">විනාඩි 15ක්</span> නවතන්න.</p>`
+      },
+      {
+        title: "2. ඉහළ Odd අවදානම් කාලය",
+        content: `<p>Signal වේලාවට <span class="highlight">±1 minute</span> ඇතුළත <span class="highlight">+10× odd</span> පැමිණී ඇත්නම්, එය High Odd Risk වේලාවක් බැවින් <span class="warning">බැට් කිරීමෙන් වලකින්න</span>.</p>`
+      },
+      {
+        title: "3. SHA512 Hash කේත ක්‍රමය",
+        content: `<p>SHA512 Hash එක ලබාගත් පසු:</p>
+        <p>• <span class="highlight">අවසන් වට 3</span> අතරින් <span class="highlight">පළමු වටය</span> තෝරන්න.</p>
+        <p>• එය <span class="highlight">3x හෝ ඊට වැඩි odd</span> නම්, එය විශ්වාසදායකය.</p>
+        <p>• "Try Again" පණිවිඩයක් දිස්වුවහොත්, එම signal එක භාවිතය <span class="warning">නවතන්න</span> සහ අලුත් එකක් සාදා නැවත පරීක්ෂා කරන්න.</p>`
+      },
+      {
+        title: "4. ඉහළ විශ්වාසදායක Odds ඉලක්ක කිරීම",
+        content: `<p>හැකි සෑම අවස්ථාවකම, <span class="highlight">80%+ confidence</span> සහිත <span class="highlight">3x+ odds</span> මත බැට් කරන්න.</p>
+        <p>Signal Trust Level එක අනුව තීරණය කරන්න.</p>`
+      },
+      {
+        title: "5. නිවැරදි Signal කාලය (තත්පර-පාදක)",
+        content: `<p>උදා: Signal = <span class="highlight">10:30:47</span></p>
+        <p>→ එයට පසු වටය (e.g., 10:30:48) පමණක් ක්‍රීඩා කරන්න.</p>
+        <p>• Signal second එකට ආසන්න වටය skip කරන්න.</p>
+        <p>• Game Start Initial <span class="highlight">10 seconds නොගණන්</span> කරයි.</p>`
+      },
+      {
+        title: "6. Signal-පාදක බැට් කිරීමේ අනුක්‍රමය (වට 3ක්)",
+        content: `<p>Signal එකකට:</p>
+        <p>• පෙර වටය නොකර, පසුව පැමිණෙන <span class="highlight">වට තුනක්</span> ක්‍රීඩා කරන්න.</p>
+        <p>• එක් වටයකでも ජයග්‍රහණයක් ලැබේ නම් ක්‍රීඩා නවතන්න.</p>
+        <p>• තවත් signal එකක් සාදා නව වට 3කට යන්න.</p>
+        <p>• වට 3ම අසාර්ථක නම්, <span class="highlight">Hash එක වෙනස් කර</span> අලුත් signal එකක් සාදන්න.</p>`
+      },
+      {
+        title: "7. අවබෝධය සහ අභ්‍යාසය",
+        content: `<p>Signal ක්‍රමය භාවිතයට පෙර:</p>
+        <p>• වට කිහිපයක් පරීක්ෂා කරන්න.</p>
+        <p>• ඔබට හඳුනාගත හැකියි:</p>
+        <p>→ ජයග්‍රහණය <span class="highlight">පළවෙනිද, දෙවැනිද, තුන්වෙනිද?</span></p>
+        <p>→ උදා: විශාල වශයෙන් 3වන වටයේ ජයග්‍රහණය වාර්තා වේ නම්, පළමු දෙක skip කර <span class="highlight">3වැනි වටය</span> පමණක් target කරන්න.</p>`
+      },
+      {
+        title: "8. අතිරේක වෘත්තීය උපදෙස්",
+        content: `<p>• <span class="info">ඉතිහාස රටා විශ්ලේෂණය</span> – ට්‍රෙන්ඩ් හඳුනාගන්න.</p>
+        <p>• <span class="info">සැසි අතර විරාම</span> – සෑම win එකක් පසු විනාඩි 10-15ක් නවතන්න.</p>
+        <p>• <span class="info">සීමිත ක්‍රීඩාව</span> – පැය 1කට signals 3-5ක් සීමා කරන්න.</p>
+        <p>• <span class="info">ස්ථාවර සම්බන්ධතාවය</span> – විදුලිය සහ අන්තර්ජාල ස්ථාවර විය යුතුය.</p>
+        <p>• <span class="info">Signal ලොග් කිරීම</span> – JSON/Excel ආකාරයෙන් වාර්තා තබා ගන්න.</p>`
+      }
+    ],
+    footer: "© 2023 Aviator වෘත්තීය ක්‍රමවේද මාර්ගෝපදේශය. සියලුම හිමිකම් ඇවිරිණි. අධ්‍යාපනික අරමුණු සඳහා පමණි."
+  };
+
+  // Language switching
+  const sinhalaBtn = document.getElementById('sinhala-btn');
+  const englishBtn = document.getElementById('english-btn');
+  
+  function setLanguage(lang) {
+    const content = lang === 'sinhala' ? sinhalaContent : englishContent;
+    
+    document.getElementById('title').textContent = content.title;
+    document.getElementById('subtitle').textContent = content.subtitle;
+    document.getElementById('footer-text').textContent = content.footer;
+    
+    content.strategies.forEach((strategy, index) => {
+      document.getElementById(`strategy${index+1}-title`).textContent = strategy.title;
+      document.getElementById(`strategy${index+1}-content`).innerHTML = strategy.content;
+    });
+    
+    if (lang === 'sinhala') {
+      sinhalaBtn.classList.add('active');
+      englishBtn.classList.remove('active');
+    } else {
+      englishBtn.classList.add('active');
+      sinhalaBtn.classList.remove('active');
+    }
+  }
+  
+  sinhalaBtn.addEventListener('click', () => setLanguage('sinhala'));
+  englishBtn.addEventListener('click', () => setLanguage('english'));
+  
+  // Initialize with Sinhala
+  setLanguage('sinhala');
+</script>
+
+</body>
+</html>
